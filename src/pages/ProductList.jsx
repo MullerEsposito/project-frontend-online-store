@@ -3,10 +3,27 @@ import { Link } from 'react-router-dom';
 import { FiShoppingCart, FiSearch } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
 
-import './ProductList.css';
 import ListCategories from '../components/ListCategories';
+import { getCategories } from '../services/api';
+import './ProductList.css';
 
 class ProductList extends Component {
+  constructor() {
+    super();
+    this.state = {
+      categories: [],
+    };
+  }
+
+  componentDidMount() {
+    this.fetchCategories();
+  }
+
+  async fetchCategories() {
+    const categories = await getCategories();
+    this.setState({ categories });
+  }
+
   renderInputSearch() {
     return (
       <label className="container-inputSearch" htmlFor="inputSearch">
@@ -27,9 +44,11 @@ class ProductList extends Component {
   }
 
   render() {
+    const { categories } = this.state;
+
     return (
       <div className="container-product-list">
-        <ListCategories />
+        <ListCategories categories={ categories } />
         { this.renderInputSearch() }
         { this.renderLinkShoppingCart() }
         <p data-testid="home-initial-message">
