@@ -5,11 +5,18 @@ import './ListCategories.css';
 
 class ListCategories extends Component {
   renderCategories() {
-    const { categories } = this.props;
-    console.log(categories);
+    const { categories, categoryId, handleSearchChange } = this.props;
+
     return categories.map((category) => (
       <label data-testid="category" key={ category.id } htmlFor={ category.id }>
-        <input id={ category.id } name="category" type="radio" />
+        <input
+          id={ category.id }
+          value={ category.id }
+          name="categoryId"
+          type="radio"
+          checked={ categoryId === category.id }
+          onChange={ handleSearchChange }
+        />
         { category.name }
       </label>
     ));
@@ -25,6 +32,10 @@ class ListCategories extends Component {
   }
 }
 
+ListCategories.defaultProps = {
+  categoryId: '',
+};
+
 ListCategories.propTypes = {
   categories: PropTypes.arrayOf(
     PropTypes.shape({
@@ -32,6 +43,8 @@ ListCategories.propTypes = {
       name: PropTypes.string,
     }),
   ).isRequired,
+  categoryId: PropTypes.string,
+  handleSearchChange: PropTypes.func.isRequired,
 };
 
 export default ListCategories;
