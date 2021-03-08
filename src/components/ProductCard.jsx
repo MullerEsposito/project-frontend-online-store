@@ -9,7 +9,7 @@ class ProductCard extends Component {
     const { product } = this.props;
     return (
       <div data-testid="product" className="container-product-card">
-        <Link to={ `/product-details/${product.id}` }>
+        <Link data-testid="product-detail-link" to={ `/product-details/${product.id}` }>
           <header>{ product.title }</header>
           <img src={ product.thumbnail } alt="" />
           <p>{`R$ ${product.price}`}</p>

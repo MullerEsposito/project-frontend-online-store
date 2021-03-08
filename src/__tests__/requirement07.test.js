@@ -4,6 +4,7 @@ import App from '../App';
 import * as api from '../services/api';
 import mockedCategoriesResult from '../__mocks__/categories';
 import mockedQueryResult from '../__mocks__/query';
+import mockedProduct from "../__mocks__/product";
 
 jest.mock('../services/api');
 api.getCategories.mockImplementation(
@@ -11,6 +12,10 @@ api.getCategories.mockImplementation(
 );
 api.getProductsFromCategoryAndQuery.mockImplementation(
   () => Promise.resolve(mockedQueryResult),
+);
+
+api.getProductDetails.mockImplementation(
+  () => Promise.resolve(mockedProduct),
 );
 
 describe(`7 - Redirecione para uma tela com a exibição detalhada ao clicar na exibição resumida de um produto`, () => {
@@ -22,7 +27,7 @@ describe(`7 - Redirecione para uma tela com a exibição detalhada ao clicar na 
     fireEvent.click(screen.getAllByTestId('product-detail-link')[0]);
     await waitFor(
       () => expect(screen.getByTestId('product-detail-name')).toHaveTextContent(
-        mockedQueryResult.results[0].title,
+        mockedProduct.title,
       ),
     );
   });

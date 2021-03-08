@@ -1,13 +1,59 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { IconContext } from 'react-icons';
 import { TiArrowBackOutline } from 'react-icons/ti';
 import { FiShoppingCart } from 'react-icons/fi';
 
+import { getProductDetails } from '../services/api';
+
 import './ProductDetails.css';
 
 class ProductDetails extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+    };
+  }
+
+  componentDidMount() {
+    this.fetchProductDetails();
+  }
+
+  fetchProductDetails() {
+    const { match: { params: { id } } } = this.props;
+
+    this.setState({ isLoading: true }, async () => {
+      const product = await getProductDetails(id);
+      this.setState({ product, isLoading: false });
+    });
+  }
+
+  renderProductDetails() {
+    const { product } = this.state;
+    return (
+      <>
+        <h1 data-testid="product-detail-name">
+          {`${product.title} - R$ ${product.price}`}
+        </h1>
+        <img src={ product.pictures[0].url } alt="" />
+        <div className="container-technical-specification">
+          <h2>Especificações Técnicas</h2>
+          <main>
+            <ul>
+              { product.attributes.map((atrib) => (
+                <li key={ atrib.id }>{`${atrib.name} ${atrib.value_name}`}</li>
+              )) }
+            </ul>
+          </main>
+        </div>
+      </>
+    );
+  }
+
   render() {
+    const { isLoading } = this.state;
     return (
       <div className="container-product-details">
         <IconContext.Provider value={ { size: '2em' } }>
@@ -16,22 +62,19 @@ class ProductDetails extends Component {
           </Link>
           <FiShoppingCart />
         </IconContext.Provider>
-        <h1>Produto 1 - R$ 20,00</h1>
-        <img src="https://yata.ostr.locaweb.com.br/b1da36362690140b82f2615336181d34f58abf5a5fadf78cb182f5aafb43242e" alt="" />
-        <div className="container-technical-specification">
-          <h2>Especificações Técnicas</h2>
-          <main>
-            <ul>
-              <li>Especificação 1</li>
-              <li>Especificação 2</li>
-              <li>Especificação 3</li>
-              <li>Especificação 4</li>
-            </ul>
-          </main>
-        </div>
+        { isLoading && <p>Carregando...</p> }
+        { isLoading || this.renderProductDetails() }
       </div>
     );
   }
 }
+
+ProductDetails.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
 export default ProductDetails;
