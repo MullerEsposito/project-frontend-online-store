@@ -1,0 +1,30 @@
+.container-product-details {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.container-product-details > h1 {
+  width: 100%;
+  font-size: 1.2em;
+}
+
+.container-product-details img {
+  width: 35%;
+}
+
+.container-technical-specification {
+  border: 1px black solid;
+  flex: 1;
+  margin-left: 10px;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-technical-specification h2 {
+  margin: 0;
+  font-size: 1em;
+}

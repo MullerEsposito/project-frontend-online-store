@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import './ProductCard.css';
@@ -6,12 +7,13 @@ import './ProductCard.css';
 class ProductCard extends Component {
   renderProductCard() {
     const { product } = this.props;
-    // console.log(product);
     return (
       <div data-testid="product" className="container-product-card">
-        <header>{ product.title }</header>
-        <img src={ product.thumbnail } alt="" />
-        <p>{`R$ ${product.price}`}</p>
+        <Link to={ `/product-details/${product.id}` }>
+          <header>{ product.title }</header>
+          <img src={ product.thumbnail } alt="" />
+          <p>{`R$ ${product.price}`}</p>
+        </Link>
       </div>
     );
   }
@@ -23,6 +25,7 @@ class ProductCard extends Component {
 
 ProductCard.propTypes = {
   product: PropTypes.shape({
+    id: PropTypes.string,
     title: PropTypes.string,
     price: PropTypes.number,
     thumbnail: PropTypes.string,

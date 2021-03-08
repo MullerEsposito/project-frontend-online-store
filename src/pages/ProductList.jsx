@@ -26,6 +26,8 @@ class ProductList extends Component {
   handleOnChange({ target: { name, value } }) {
     this.setState({
       [name]: value,
+    }, () => {
+      if (name === 'categoryId') this.fetchProducts();
     });
   }
 
@@ -105,7 +107,7 @@ class ProductList extends Component {
       <>
         <ListCategories
           categories={ categories }
-          handleSearchChange={ this.handleOnChange }
+          handleCategoriesChange={ this.handleOnChange }
           categoryId={ categoryId }
         />
         <div className="container-search">
