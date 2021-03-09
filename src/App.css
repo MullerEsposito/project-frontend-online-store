@@ -1,3 +1,7 @@
 .container-app {
   display: flex;  
 }
+
+a {
+  color: black;
+}

@@ -1,0 +1,14 @@
+.container-controls-cart {
+  display: flex;
+  align-items: center;
+  margin: 0 20px;
+  font-size: 3vw;
+}
+
+.container-controls-cart span {
+  display: inline-block;
+  border: 1px black solid;
+  border-radius: 50%;
+  width: 18px;
+  text-align: center;
+}

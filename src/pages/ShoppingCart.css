@@ -1,0 +1,32 @@
+.container-cart-products {
+  padding: 10px;
+}
+
+.container-cart-products .icon-arrowback {
+  margin-right: 95%;
+  margin-bottom: 10px;
+}
+
+.container-cart-products .cart-products-title {
+  display: inline;
+  margin: 0 10px;
+  font-size: 1em;
+}
+
+.container-cart-product {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 50%;
+}
+
+
+.container-cart-product img {
+  width: 15%;
+  padding: 10px;
+}
+
+.container-cart-product p, .container-cart-product span {
+  font-size: 2vw;
+  max-width: 190px;
+}

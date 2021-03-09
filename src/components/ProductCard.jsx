@@ -5,6 +5,32 @@ import PropTypes from 'prop-types';
 import './ProductCard.css';
 
 class ProductCard extends Component {
+  constructor() {
+    super();
+    this.state = {
+      quantity: 0,
+    };
+
+    this.handleAddProductToCart = this.handleAddProductToCart.bind(this);
+  }
+
+  handleAddProductToCart() {
+    const { product, handleAddProductToCart } = this.props;
+    this.setState(
+      (state) => ({ quantity: state.quantity + 1 }),
+      () => {
+        const { quantity } = this.state;
+        handleAddProductToCart({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          thumbnail: product.thumbnail,
+          quantity,
+        });
+      },
+    );
+  }
+
   renderProductCard() {
     const { product } = this.props;
     return (
@@ -14,6 +40,13 @@ class ProductCard extends Component {
           <img src={ product.thumbnail } alt="" />
           <p>{`R$ ${product.price}`}</p>
         </Link>
+        <button
+          data-testid="product-add-to-cart"
+          type="button"
+          onClick={ this.handleAddProductToCart }
+        >
+          Adicionar ao Carrinho
+        </button>
       </div>
     );
   }
@@ -30,6 +63,7 @@ ProductCard.propTypes = {
     price: PropTypes.number,
     thumbnail: PropTypes.string,
   }).isRequired,
+  handleAddProductToCart: PropTypes.func.isRequired,
 };
 
 export default ProductCard;

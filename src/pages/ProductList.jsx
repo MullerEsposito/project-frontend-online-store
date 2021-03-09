@@ -13,10 +13,12 @@ class ProductList extends Component {
     super();
     this.state = {
       categories: [],
+      cart: [],
     };
     this.handleOnChange = this.handleOnChange.bind(this);
     this.fetchProducts = this.fetchProducts.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleAddProductToCart = this.handleAddProductToCart.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +39,17 @@ class ProductList extends Component {
         || e.type === 'click') {
       this.fetchProducts();
     }
+  }
+
+  handleAddProductToCart(handledProduct) {
+    const { cart } = this.state;
+    const unFound = -1;
+
+    const indexProduct = cart.findIndex((product) => product.id === handledProduct.id);
+    if (indexProduct !== unFound) cart[indexProduct].quantity += 1;
+    if (indexProduct === unFound) cart.push(handledProduct);
+
+    this.setState({ cart });
   }
 
   async fetchCategories() {
@@ -71,10 +84,17 @@ class ProductList extends Component {
     );
   }
 
-  renderLinkShoppingCart() {
+  renderShoppingCartButton() {
+    const { cart } = this.state;
     return (
       <IconContext.Provider value={ { size: '2em' } }>
-        <Link to="/shopping-cart" data-testid="shopping-cart-button">
+        <Link
+          to={ {
+            pathname: '/shopping-cart',
+            state: { cart },
+          } }
+          data-testid="shopping-cart-button"
+        >
           <FiShoppingCart />
         </Link>
       </IconContext.Provider>
@@ -96,7 +116,11 @@ class ProductList extends Component {
     const { products } = this.state;
     if (!products) return;
     return products.map((product) => (
-      <ProductCard key={ product.id } product={ product } />
+      <ProductCard
+        key={ product.id }
+        product={ product }
+        handleAddProductToCart={ this.handleAddProductToCart }
+      />
     ));
   }
 
@@ -112,7 +136,7 @@ class ProductList extends Component {
         />
         <div className="container-search">
           { this.renderInputSearch() }
-          { this.renderLinkShoppingCart() }
+          { this.renderShoppingCartButton() }
           <div className="container-product-list">
             { isLoading && <p>Loading...</p> }
             { this.renderPlaceHolder() }
