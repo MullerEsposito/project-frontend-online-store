@@ -7,35 +7,30 @@ import './ProductCard.css';
 class ProductCard extends Component {
   constructor() {
     super();
-    this.state = {
-      quantity: 0,
-    };
 
     this.handleAddProductToCart = this.handleAddProductToCart.bind(this);
   }
 
   handleAddProductToCart() {
     const { product, handleAddProductToCart } = this.props;
-    this.setState(
-      (state) => ({ quantity: state.quantity + 1 }),
-      () => {
-        const { quantity } = this.state;
-        handleAddProductToCart({
-          id: product.id,
-          title: product.title,
-          price: product.price,
-          thumbnail: product.thumbnail,
-          quantity,
-        });
-      },
-    );
+    const productToAdd = {
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      thumbnail: product.thumbnail,
+      quantity: 1,
+    };
+    handleAddProductToCart(productToAdd);
   }
 
   renderProductCard() {
     const { product } = this.props;
     return (
       <div data-testid="product" className="container-product-card">
-        <Link data-testid="product-detail-link" to={ `/product-details/${product.id}` }>
+        <Link
+          data-testid="product-detail-link"
+          to={ `/product-details/${product.id}` }
+        >
           <header>{ product.title }</header>
           <img src={ product.thumbnail } alt="" />
           <p>{`R$ ${product.price}`}</p>

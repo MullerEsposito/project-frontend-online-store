@@ -10,6 +10,25 @@ import ControlsCart from '../components/ControlsCart';
 import './ShoppingCart.css';
 
 class ShoppingCart extends Component {
+  constructor() {
+    super();
+    this.state = {
+      cart: [],
+    };
+  }
+
+  componentDidMount() {
+    this.loadCart();
+  }
+
+  loadCart() {
+    const cart = localStorage.getItem('@ONLINE-STORE:Cart')
+      ? JSON.parse(localStorage.getItem('@ONLINE-STORE:Cart'))
+      : [];
+
+    this.setState({ cart });
+  }
+
   renderEmptyCart() {
     return (
       <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
@@ -17,7 +36,8 @@ class ShoppingCart extends Component {
   }
 
   renderCartProducts() {
-    const { location: { state: { cart } } } = this.props;
+    const { cart } = this.state;
+
     return cart.map((product) => (
       <div key={ product.id } className="container-cart-product">
         <TiDelete />
@@ -30,7 +50,7 @@ class ShoppingCart extends Component {
   }
 
   render() {
-    const { location: { state: { cart } } } = this.props;
+    const { cart } = this.state;
 
     if (cart.length === 0) return this.renderEmptyCart();
     return (

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { FiShoppingCart, FiSearch } from 'react-icons/fi';
-import { IconContext } from 'react-icons';
+import { FiSearch } from 'react-icons/fi';
 
 import ListCategories from '../components/ListCategories';
 import ProductCard from '../components/ProductCard';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import './ProductList.css';
+import Cart from '../components/Cart';
 
 class ProductList extends Component {
   constructor() {
@@ -19,6 +18,7 @@ class ProductList extends Component {
     this.fetchProducts = this.fetchProducts.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleAddProductToCart = this.handleAddProductToCart.bind(this);
+    this.handleOnCartChange = this.handleOnCartChange.bind(this);
   }
 
   componentDidMount() {
@@ -41,15 +41,12 @@ class ProductList extends Component {
     }
   }
 
-  handleAddProductToCart(handledProduct) {
-    const { cart } = this.state;
-    const unFound = -1;
-
-    const indexProduct = cart.findIndex((product) => product.id === handledProduct.id);
-    if (indexProduct !== unFound) cart[indexProduct].quantity += 1;
-    if (indexProduct === unFound) cart.push(handledProduct);
-
+  handleOnCartChange(cart) {
     this.setState({ cart });
+  }
+
+  handleAddProductToCart(productToAdd) {
+    this.setState({ productToAdd });
   }
 
   async fetchCategories() {
@@ -84,23 +81,6 @@ class ProductList extends Component {
     );
   }
 
-  renderShoppingCartButton() {
-    const { cart } = this.state;
-    return (
-      <IconContext.Provider value={ { size: '2em' } }>
-        <Link
-          to={ {
-            pathname: '/shopping-cart',
-            state: { cart },
-          } }
-          data-testid="shopping-cart-button"
-        >
-          <FiShoppingCart />
-        </Link>
-      </IconContext.Provider>
-    );
-  }
-
   renderPlaceHolder() {
     const { products, isLoading } = this.state;
     if (products || isLoading) return;
@@ -113,19 +93,20 @@ class ProductList extends Component {
   }
 
   renderProductCards() {
-    const { products } = this.state;
+    const { products, cart } = this.state;
     if (!products) return;
     return products.map((product) => (
       <ProductCard
         key={ product.id }
         product={ product }
+        cart={ cart }
         handleAddProductToCart={ this.handleAddProductToCart }
       />
     ));
   }
 
   render() {
-    const { categories, categoryId, isLoading } = this.state;
+    const { cart, categories, categoryId, isLoading, productToAdd } = this.state;
 
     return (
       <>
@@ -136,7 +117,11 @@ class ProductList extends Component {
         />
         <div className="container-search">
           { this.renderInputSearch() }
-          { this.renderShoppingCartButton() }
+          <Cart
+            cart={ cart }
+            handleOnCartChange={ this.handleOnCartChange }
+            productToAdd={ productToAdd }
+          />
           <div className="container-product-list">
             { isLoading && <p>Loading...</p> }
             { this.renderPlaceHolder() }

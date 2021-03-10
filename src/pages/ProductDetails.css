@@ -13,11 +13,27 @@
 
 .container-product-details img {
   width: 35%;
+  height: 35%;
+}
+
+.container-product-details footer {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.container-product-details footer p {
+  width: 100%;
+  margin: 0;
+}
+
+.container-product-details .container-controls-cart {
+  margin: 0;
 }
 
 .container-technical-specification {
+  width: 50%;
   border: 1px black solid;
-  flex: 1;
   margin-left: 10px;
   padding: 5px 10px;
   display: flex;
