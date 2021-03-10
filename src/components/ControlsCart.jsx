@@ -18,6 +18,7 @@ class ControlsCart extends Component {
 
   handleClick(operation) {
     let { inputQuantity } = this.state;
+
     inputQuantity = operation === 'plus'
       ? inputQuantity + 1
       : inputQuantity - 1;
@@ -26,18 +27,24 @@ class ControlsCart extends Component {
   }
 
   render() {
-    const { quantity } = this.props;
+    const { inputQuantity } = this.state;
 
     return (
       <div className="container-controls-cart">
-        <TiMinus onClick={ () => this.handleClick('minus') } />
+        <TiMinus
+          data-testid="product-decrease-quantity"
+          onClick={ () => this.handleClick('minus') }
+        />
         <input
           name="inputQuantity"
           data-testid="shopping-cart-product-quantity"
-          value={ quantity }
+          value={ inputQuantity }
           onChange={ this.handleOnChange }
         />
-        <TiPlus onClick={ () => this.handleClick('plus') } />
+        <TiPlus
+          data-testid="product-increase-quantity"
+          onClick={ () => this.handleClick('plus') }
+        />
       </div>
     );
   }
