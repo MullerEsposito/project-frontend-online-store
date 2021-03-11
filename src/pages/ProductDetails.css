@@ -22,9 +22,10 @@
   flex-wrap: wrap;
 }
 
-.container-product-details footer p {
+.container-product-details footer > p {
   width: 100%;
   margin: 0;
+  margin-top: 10px;
 }
 
 .container-product-details .container-controls-cart {
@@ -43,4 +44,8 @@
 .container-technical-specification h2 {
   margin: 0;
   font-size: 1em;
+}
+
+.container-technical-specification li {
+  font-size: 2vw;
 }

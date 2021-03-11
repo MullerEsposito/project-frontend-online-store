@@ -1,0 +1,38 @@
+.container-stars {
+  display: flex;
+  justify-content: space-around;
+  width: 20%;
+}
+
+.container-stars label {
+  position: relative;
+}
+
+.container-stars input {
+  opacity: 0;
+}
+
+.container-stars:hover .icon-star {
+  fill: yellow;
+}
+
+.container-stars label:hover ~ label .icon-star {
+  fill: none;
+}
+
+.container-stars .icon-star {
+  fill: yellow;
+}
+
+.empty .icon-star{
+  fill: none;
+}
+
+.container-stars .checked ~ label .icon-star {
+  fill: none;
+}
+
+.container-stars .icon-star {
+  position: absolute;
+  top: 0;
+}

@@ -8,6 +8,7 @@ import { getProductDetails } from '../services/api';
 
 import './ProductDetails.css';
 import ControlsCart from '../components/ControlsCart';
+import Evaluations from '../components/Evaluations';
 import Cart from '../components/Cart';
 
 class ProductDetails extends Component {
@@ -84,6 +85,7 @@ class ProductDetails extends Component {
           >
             Adicionar ao Carrinho
           </button>
+          <Evaluations productId={ product.id } />
         </footer>
       </>
     );

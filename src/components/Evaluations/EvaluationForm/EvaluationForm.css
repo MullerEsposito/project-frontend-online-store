@@ -1,0 +1,19 @@
+.container-evaluation-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px black solid;
+  height: 22vh;
+}
+
+.container-evaluation-form input {
+  width: 35%;
+  margin-right: 10px;
+}
+
+.container-evaluation-form textarea {
+  margin-right: 50%;
+}
+

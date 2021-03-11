@@ -3,9 +3,10 @@ import { FiSearch } from 'react-icons/fi';
 
 import ListCategories from '../components/ListCategories';
 import ProductCard from '../components/ProductCard';
+import Cart from '../components/Cart';
+
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import './ProductList.css';
-import Cart from '../components/Cart';
 
 class ProductList extends Component {
   constructor() {

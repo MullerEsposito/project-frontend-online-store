@@ -8,6 +8,7 @@
 .container-controls-cart input {
   border: 1px black solid;
   border-radius: 50%;
-  width: 18px;
+  width: 30px;
+  height: 30px;
   text-align: center;
 }

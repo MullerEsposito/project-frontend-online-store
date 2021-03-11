@@ -1,0 +1,17 @@
+.container-evaluation-list {
+  flex: 1;
+  border: 1px solid;
+  padding: 10px;
+}
+
+.container-evaluation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid;
+}
+
+.container-evaluation .container-stars + p {
+  width: 100%;
+}
