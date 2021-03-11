@@ -1,0 +1,37 @@
+.container-checkout {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 10px;
+}
+
+.container-payment-methods {
+  display: flex;
+}
+
+.container-payment-methods label {
+  display: flex;
+  align-items: center;
+}
+
+.container-payment-methods label * {
+  margin: 0 10px;
+}
+
+.container-credit-card {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container-credit-card p {
+  width: 100%;
+}
+
+.container-bill {
+  margin-right: 15px;
+}
+
+.container-checkout button {
+  align-self: flex-start;
+  margin: 10px 0;
+}

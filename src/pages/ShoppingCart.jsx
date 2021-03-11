@@ -63,7 +63,7 @@ class ShoppingCart extends Component {
           <h1 className="cart-products-title">Carrinho de Compras</h1>
           {this.renderCartProducts()}
           <p>Valor Total da Compra: R$ 40,00</p>
-          <button type="button">Finalizar Compra</button>
+          <Link to="/checkout">Finalizar Compra</Link>
         </IconContext.Provider>
       </div>
     );
