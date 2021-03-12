@@ -51,16 +51,29 @@ class Checkout extends Component {
     return (
       <fieldset className="container-buyer-information">
         <legend>Informações do Comprador</legend>
-        <input placeholder="Nome Completo" />
-        <input placeholder="CPF" />
-        <input type="email" placeholder="Email" />
-        <input placeholder="Telefone" />
-        <input placeholder="CEP" />
-        <input placeholder="Endereço" />
+        <input
+          name="inputName"
+          data-testid="checkout-fullname"
+          placeholder="Nome Completo"
+        />
+        <input input="inputCpf" data-testid="checkout-cpf" placeholder="CPF" />
+        <input
+          name="inputEmail"
+          data-testid="checkout-email"
+          type="email"
+          placeholder="Email"
+        />
+        <input name="inputPhone" data-testid="checkout-phone" placeholder="Telefone" />
+        <input name="inputCep" data-testid="checkout-cep" placeholder="CEP" />
+        <input
+          name="inputAddress"
+          data-testid="checkout-address"
+          placeholder="Endereço"
+        />
         <input placeholder="Complemento" />
-        <input placeholder="Número" />
-        <input placeholder="Cidade" />
-        <input placeholder="Estado" />
+        <input name="inputNumber" placeholder="Número" />
+        <input name="inputCity" placeholder="Cidade" />
+        <input name="inputState" placeholder="Estado" />
       </fieldset>
     );
   }

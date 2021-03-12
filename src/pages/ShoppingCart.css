@@ -27,6 +27,7 @@
 }
 
 .container-cart-product p, .container-cart-product span {
-  font-size: 2vw;
+  margin: 0 20px;
+  font-size: 1em;
   max-width: 190px;
 }

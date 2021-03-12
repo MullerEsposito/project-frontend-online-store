@@ -5,6 +5,10 @@
   padding: 10px;
 }
 
+.container-checkout fieldset {
+  margin: 10px 0;
+}
+
 .container-payment-methods {
   display: flex;
 }
@@ -34,4 +38,23 @@
 .container-checkout button {
   align-self: flex-start;
   margin: 10px 0;
+}
+
+.container-buyer-information input {
+  box-sizing: border-box;
+  width: 22%;
+  margin: 5px 1%;
+}
+
+.container-buyer-information input[name='inputAddress'] {
+  width: 70%;
+}
+
+.container-buyer-information input[name='inputNumber'],
+.container-buyer-information input[name='inputState'] {
+  width: 14%;
+}
+
+.container-buyer-information input[name="inputCity"] {
+  width: 38%;
 }
