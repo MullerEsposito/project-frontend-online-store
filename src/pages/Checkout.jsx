@@ -7,16 +7,64 @@ import { IconContext } from 'react-icons';
 
 import './Checkout.css';
 
+const formBuyer = {
+  inputName: '',
+  inputCpf: '',
+  inputEmail: '',
+  inputPhone: '',
+  inputCep: '',
+  inputAddress: '',
+  inputComplement: '',
+  inputNumber: '',
+  inputCity: '',
+  inputState: '' };
+
 class Checkout extends Component {
   constructor() {
     super();
     this.state = {
+      formBuyer,
       cart: [],
     };
+    this.handleOnChangeForm = this.handleOnChangeForm.bind(this);
+    this.handleOnChangePayment = this.handleOnChangePayment.bind(this);
+    this.handleOnSubmit = this.handleOnSubmit.bind(this);
   }
 
   componentDidMount() {
     this.loadCart();
+  }
+
+  handleOnChangeForm({ target: { name, value } }) {
+    this.setState((state) => (
+      {
+        formBuyer: {
+          ...state.formBuyer,
+          [name]: value,
+        },
+      }
+    ));
+  }
+
+  handleOnChangePayment({ target: { name, id } }) {
+    this.setState({ [name]: id });
+  }
+
+  handleOnSubmit(e) {
+    e.preventDefault();
+    this.verifiesRequiredInputs();
+    alert('Agora sim =D!');
+  }
+
+  verifiesRequiredInputs() {
+    const myRequiredInputs = Array.from(document.querySelectorAll('input'));
+    const numOfRequiredReceives = myRequiredInputs.reduce((total, input) => (
+      input.required ? total + 1 : total), 0);
+    const numOfRequiredOnMyForm = 10;
+
+    if (numOfRequiredReceives !== numOfRequiredOnMyForm) {
+      return alert('Huumm safado, parece que você está tentando burlar o form!');
+    }
   }
 
   loadCart() {
@@ -29,6 +77,7 @@ class Checkout extends Component {
 
   renderCartProducts() {
     const { cart } = this.state;
+    const total = cart.reduce((sum, { price }) => sum + price, 0);
 
     return (
       <fieldset className="container-cart-products">
@@ -42,8 +91,112 @@ class Checkout extends Component {
             </div>
           ))
         }
-        <p>Valor Total da Compra: R$ 40,00</p>
+        <p>
+          <strong>Total:</strong>
+          {` ${total}`}
+        </p>
       </fieldset>
+    );
+  }
+
+  renderFormFirstLine() {
+    const { formBuyer: { inputName, inputEmail, inputPhone, inputCpf } } = this.state;
+    return (
+      <>
+        <input
+          name="inputName"
+          onChange={ this.handleOnChangeForm }
+          value={ inputName }
+          data-testid="checkout-fullname"
+          placeholder="Nome Completo"
+          required
+        />
+        <input
+          name="inputCpf"
+          onChange={ this.handleOnChangeForm }
+          value={ inputCpf }
+          data-testid="checkout-cpf"
+          placeholder="CPF"
+          required
+        />
+        <input
+          name="inputEmail"
+          onChange={ this.handleOnChangeForm }
+          value={ inputEmail }
+          data-testid="checkout-email"
+          type="email"
+          placeholder="Email"
+          required
+        />
+        <input
+          name="inputPhone"
+          onChange={ this.handleOnChangeForm }
+          value={ inputPhone }
+          data-testid="checkout-phone"
+          placeholder="Telefone"
+          required
+        />
+      </>
+    );
+  }
+
+  renderFormSecondLine() {
+    const { formBuyer: { inputCep, inputAddress } } = this.state;
+    return (
+      <>
+        <input
+          name="inputCep"
+          onChange={ this.handleOnChangeForm }
+          value={ inputCep }
+          data-testid="checkout-cep"
+          placeholder="CEP"
+          required
+        />
+        <input
+          name="inputAddress"
+          onChange={ this.handleOnChangeForm }
+          value={ inputAddress }
+          data-testid="checkout-address"
+          placeholder="Endereço"
+          required
+        />
+      </>
+    );
+  }
+
+  renderFormThirdLine() {
+    const { formBuyer: { inputComplement, inputNumber,
+      inputCity, inputState } } = this.state;
+    return (
+      <>
+        <input
+          name="inputComplement"
+          onChange={ this.handleOnChangeForm }
+          value={ inputComplement }
+          placeholder="Complemento"
+        />
+        <input
+          name="inputNumber"
+          onChange={ this.handleOnChangeForm }
+          value={ inputNumber }
+          placeholder="Número"
+          required
+        />
+        <input
+          name="inputCity"
+          value={ inputCity }
+          onChange={ this.handleOnChangeForm }
+          placeholder="Cidade"
+          required
+        />
+        <input
+          name="inputState"
+          value={ inputState }
+          onChange={ this.handleOnChangeForm }
+          placeholder="Estado"
+          required
+        />
+      </>
     );
   }
 
@@ -51,62 +204,75 @@ class Checkout extends Component {
     return (
       <fieldset className="container-buyer-information">
         <legend>Informações do Comprador</legend>
-        <input
-          name="inputName"
-          data-testid="checkout-fullname"
-          placeholder="Nome Completo"
-        />
-        <input input="inputCpf" data-testid="checkout-cpf" placeholder="CPF" />
-        <input
-          name="inputEmail"
-          data-testid="checkout-email"
-          type="email"
-          placeholder="Email"
-        />
-        <input name="inputPhone" data-testid="checkout-phone" placeholder="Telefone" />
-        <input name="inputCep" data-testid="checkout-cep" placeholder="CEP" />
-        <input
-          name="inputAddress"
-          data-testid="checkout-address"
-          placeholder="Endereço"
-        />
-        <input placeholder="Complemento" />
-        <input name="inputNumber" placeholder="Número" />
-        <input name="inputCity" placeholder="Cidade" />
-        <input name="inputState" placeholder="Estado" />
+        { this.renderFormFirstLine() }
+        { this.renderFormSecondLine() }
+        { this.renderFormThirdLine() }
       </fieldset>
     );
   }
 
+  renderCreditCards() {
+    const { payment } = this.state;
+    return (
+      <div className="container-credit-card">
+        <p>Cartão de Crédito</p>
+        <label htmlFor="visa">
+          <input
+            name="payment"
+            id="visa"
+            onChange={ this.handleOnChangePayment }
+            checked={ payment === 'visa' }
+            type="radio"
+          />
+          Visa
+          <MdCreditCard />
+        </label>
+        <label htmlFor="master">
+          <input
+            name="payment"
+            id="master"
+            onChange={ this.handleOnChangePayment }
+            checked={ payment === 'master' }
+            type="radio"
+          />
+          MasterCard
+          <MdCreditCard />
+        </label>
+        <label htmlFor="elo">
+          <input
+            name="payment"
+            id="elo"
+            onChange={ this.handleOnChangePayment }
+            checked={ payment === 'elo' }
+            type="radio"
+          />
+          Elo
+          <MdCreditCard />
+        </label>
+      </div>
+    );
+  }
+
   renderPaymentMethods() {
+    const { payment } = this.state;
     return (
       <fieldset className="container-payment-methods">
         <legend>Método de Pagamento</legend>
         <div className="container-bill">
           <p>Boleto</p>
           <label htmlFor="bill">
-            <input type="radio" name="payment" />
+            <input
+              name="payment"
+              id="bill"
+              onChange={ this.handleOnChangePayment }
+              checked={ payment === 'bill' }
+              type="radio"
+              required
+            />
             <FaBarcode />
           </label>
         </div>
-        <div className="container-credit-card">
-          <p>Cartão de Crédito</p>
-          <label htmlFor="visa">
-            <input type="radio" name="payment" id="visa" />
-            Visa
-            <MdCreditCard />
-          </label>
-          <label htmlFor="master">
-            <input type="radio" name="payment" id="master" />
-            MasterCard
-            <MdCreditCard />
-          </label>
-          <label htmlFor="elo">
-            <input type="radio" name="payment" id="elo" />
-            Elo
-            <MdCreditCard />
-          </label>
-        </div>
+        { this.renderCreditCards() }
       </fieldset>
     );
   }
@@ -118,10 +284,12 @@ class Checkout extends Component {
           <Link to="/">
             <TiArrowBackOutline className="icon-arrowback" />
           </Link>
-          { this.renderCartProducts() }
-          { this.renderBuyerInformation() }
-          { this.renderPaymentMethods() }
-          <button type="button">Comprar</button>
+          <form onSubmit={ this.handleOnSubmit }>
+            { this.renderCartProducts() }
+            { this.renderBuyerInformation() }
+            { this.renderPaymentMethods() }
+            <button type="submit">Comprar</button>
+          </form>
         </IconContext.Provider>
       </div>
     );
