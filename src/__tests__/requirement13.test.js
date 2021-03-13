@@ -4,6 +4,7 @@ import App from '../App';
 import * as api from '../services/api';
 import mockedCategoriesResult from '../__mocks__/categories';
 import mockedQueryResult from '../__mocks__/query';
+import mockedProductResult from "../__mocks__/product";
 
 jest.mock('../services/api');
 api.getCategories.mockImplementation(
@@ -11,6 +12,9 @@ api.getCategories.mockImplementation(
 );
 api.getProductsFromCategoryAndQuery.mockImplementation(
   () => Promise.resolve(mockedQueryResult),
+);
+api.getProductDetails.mockImplementation(
+  () => Promise.resolve(mockedProductResult),
 );
 
 describe(`13 - Mostre junto ao ícone do carrinho a quantidade de produtos dentro dele, em todas as telas em que ele aparece`, () => {
@@ -32,6 +36,7 @@ describe(`13 - Mostre junto ao ícone do carrinho a quantidade de produtos dentr
     fireEvent.click(screen.getAllByTestId('product-add-to-cart')[0]);
     fireEvent.click(screen.getAllByTestId('product-add-to-cart')[1]);
     fireEvent.click(screen.getAllByTestId('product-detail-link')[0]);
+    await waitFor(() => expect(api.getProductDetails).toHaveBeenCalled());
     expect(screen.getByTestId('shopping-cart-size')).toHaveTextContent('4');
   });
 });

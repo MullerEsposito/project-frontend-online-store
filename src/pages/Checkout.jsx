@@ -5,6 +5,8 @@ import { FaBarcode } from 'react-icons/fa';
 import { TiArrowBackOutline } from 'react-icons/ti';
 import { IconContext } from 'react-icons';
 
+import Cart from '../components/Cart';
+
 import './Checkout.css';
 
 const formBuyer = {
@@ -24,15 +26,10 @@ class Checkout extends Component {
     super();
     this.state = {
       formBuyer,
-      cart: [],
     };
     this.handleOnChangeForm = this.handleOnChangeForm.bind(this);
     this.handleOnChangePayment = this.handleOnChangePayment.bind(this);
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    this.loadCart();
   }
 
   handleOnChangeForm({ target: { name, value } }) {
@@ -65,38 +62,6 @@ class Checkout extends Component {
     if (numOfRequiredReceives !== numOfRequiredOnMyForm) {
       return alert('Huumm safado, parece que você está tentando burlar o form!');
     }
-  }
-
-  loadCart() {
-    const cart = localStorage.getItem('@ONLINE-STORE:Cart')
-      ? JSON.parse(localStorage.getItem('@ONLINE-STORE:Cart'))
-      : [];
-
-    this.setState({ cart });
-  }
-
-  renderCartProducts() {
-    const { cart } = this.state;
-    const total = cart.reduce((sum, { price }) => sum + price, 0);
-
-    return (
-      <fieldset className="container-cart-products">
-        <legend>Revise seus Produtos</legend>
-        {
-          cart.map((product) => (
-            <div key={ product.id } className="container-cart-product">
-              <img src={ product.thumbnail } alt="" />
-              <p data-testid="shopping-cart-product-name">{ product.title }</p>
-              <span>{`R$ ${product.quantity * product.price}`}</span>
-            </div>
-          ))
-        }
-        <p>
-          <strong>Total:</strong>
-          {` ${total}`}
-        </p>
-      </fieldset>
-    );
   }
 
   renderFormFirstLine() {
@@ -285,7 +250,7 @@ class Checkout extends Component {
             <TiArrowBackOutline className="icon-arrowback" />
           </Link>
           <form onSubmit={ this.handleOnSubmit }>
-            { this.renderCartProducts() }
+            <Cart typeRender="static-list" />
             { this.renderBuyerInformation() }
             { this.renderPaymentMethods() }
             <button type="submit">Comprar</button>

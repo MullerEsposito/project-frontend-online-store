@@ -13,13 +13,11 @@ class ProductList extends Component {
     super();
     this.state = {
       categories: [],
-      cart: [],
     };
     this.handleOnChange = this.handleOnChange.bind(this);
     this.fetchProducts = this.fetchProducts.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleAddProductToCart = this.handleAddProductToCart.bind(this);
-    this.handleOnCartChange = this.handleOnCartChange.bind(this);
   }
 
   componentDidMount() {
@@ -40,10 +38,6 @@ class ProductList extends Component {
         || e.type === 'click') {
       this.fetchProducts();
     }
-  }
-
-  handleOnCartChange(cart) {
-    this.setState({ cart });
   }
 
   handleAddProductToCart(productToAdd) {
@@ -94,20 +88,19 @@ class ProductList extends Component {
   }
 
   renderProductCards() {
-    const { products, cart } = this.state;
+    const { products } = this.state;
     if (!products) return;
     return products.map((product) => (
       <ProductCard
         key={ product.id }
         product={ product }
-        cart={ cart }
         handleAddProductToCart={ this.handleAddProductToCart }
       />
     ));
   }
 
   render() {
-    const { cart, categories, categoryId, isLoading, productToAdd } = this.state;
+    const { categories, categoryId, isLoading, productToAdd } = this.state;
 
     return (
       <>
@@ -119,8 +112,7 @@ class ProductList extends Component {
         <div className="container-search">
           { this.renderInputSearch() }
           <Cart
-            cart={ cart }
-            handleOnCartChange={ this.handleOnCartChange }
+            typeRender="icon"
             productToAdd={ productToAdd }
           />
           <div className="container-product-list">

@@ -39,6 +39,6 @@ describe(`9 - Adicione um produto ao carrinho a partir de sua tela de exibição
     );
     expect(
       screen.getAllByTestId('shopping-cart-product-quantity')[0],
-    ).toHaveValue('1');
+    ).toHaveTextContent('1');
   });
 });

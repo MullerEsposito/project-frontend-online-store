@@ -13,7 +13,7 @@
 
 .container-product-details img {
   width: 35%;
-  height: 35%;
+  height: 25%;
 }
 
 .container-product-details footer {
@@ -47,5 +47,5 @@
 }
 
 .container-technical-specification li {
-  font-size: 2vw;
+  font-size: 1em;
 }

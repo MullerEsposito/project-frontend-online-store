@@ -12,18 +12,20 @@ class ControlsCart extends Component {
     };
   }
 
-  handleOnChange({ target: { name, value } }) {
-    this.setState({ [name]: value });
-  }
-
   handleClick(operation) {
+    const { onChange, addToCart, removeFromCart } = this.props;
     let { inputQuantity } = this.state;
 
-    inputQuantity = operation === 'plus'
-      ? inputQuantity + 1
-      : inputQuantity - 1;
+    if (operation === 'plus') {
+      addToCart();
+      inputQuantity += 1;
+    } else if (operation === 'minus') {
+      removeFromCart();
+      inputQuantity -= 1;
+    }
 
     this.setState({ inputQuantity });
+    onChange(inputQuantity);
   }
 
   render() {
@@ -35,12 +37,12 @@ class ControlsCart extends Component {
           data-testid="product-decrease-quantity"
           onClick={ () => this.handleClick('minus') }
         />
-        <input
+        <span
           name="inputQuantity"
           data-testid="shopping-cart-product-quantity"
-          value={ inputQuantity }
-          onChange={ this.handleOnChange }
-        />
+        >
+          { inputQuantity }
+        </span>
         <TiPlus
           data-testid="product-increase-quantity"
           onClick={ () => this.handleClick('plus') }
@@ -50,8 +52,18 @@ class ControlsCart extends Component {
   }
 }
 
+ControlsCart.defaultProps = {
+  quantity: 1,
+  onChange: () => {},
+  addToCart: () => {},
+  removeFromCart: () => {},
+};
+
 ControlsCart.propTypes = {
-  quantity: PropTypes.number.isRequired,
+  quantity: PropTypes.number,
+  onChange: PropTypes.func,
+  addToCart: PropTypes.func,
+  removeFromCart: PropTypes.func,
 };
 
 export default ControlsCart;

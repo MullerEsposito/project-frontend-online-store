@@ -18,7 +18,6 @@ class ProductCard extends Component {
       title: product.title,
       price: product.price,
       thumbnail: product.thumbnail,
-      quantity: 1,
     };
     handleAddProductToCart(productToAdd);
   }

@@ -16,31 +16,31 @@ class ProductDetails extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      cart: [],
+      quantity: 1,
     };
-    this.handleOnCartChange = this.handleOnCartChange.bind(this);
+
     this.handleAddProductToCart = this.handleAddProductToCart.bind(this);
+    this.handleOnChangeControls = this.handleOnChangeControls.bind(this);
   }
 
   componentDidMount() {
     this.fetchProductDetails();
   }
 
-  handleOnCartChange(cart) {
-    this.setState({ cart });
-  }
-
   handleAddProductToCart() {
-    const { product } = this.state;
+    const { product, quantity } = this.state;
 
     const productToAdd = {
       id: product.id,
       title: product.title,
       price: product.price,
       thumbnail: product.thumbnail,
-      quantity: 1,
     };
-    this.setState({ productToAdd });
+    this.setState({ productToAdd, quantity });
+  }
+
+  handleOnChangeControls(quantity) {
+    this.setState({ quantity });
   }
 
   fetchProductDetails() {
@@ -53,11 +53,7 @@ class ProductDetails extends Component {
   }
 
   renderProductDetails() {
-    const { product, cart } = this.state;
-
-    const quantity = cart.reduce((total, cartProduct) => (cartProduct.id === product.id
-      ? cartProduct.quantity
-      : total), 0);
+    const { product } = this.state;
 
     return (
       <>
@@ -77,7 +73,7 @@ class ProductDetails extends Component {
         </div>
         <footer>
           <p>Quantidade</p>
-          <ControlsCart quantity={ quantity } />
+          <ControlsCart onChange={ this.handleOnChangeControls } />
           <button
             data-testid="product-detail-add-to-cart"
             type="button"
@@ -92,7 +88,7 @@ class ProductDetails extends Component {
   }
 
   render() {
-    const { isLoading, productToAdd, cart } = this.state;
+    const { isLoading, productToAdd, quantity } = this.state;
     return (
       <div className="container-product-details">
         <IconContext.Provider value={ { size: '2em' } }>
@@ -101,9 +97,9 @@ class ProductDetails extends Component {
           </Link>
           <Cart
             data-testid="shopping-cart-button"
-            cart={ cart }
-            handleOnCartChange={ this.handleOnCartChange }
+            typeRender="icon"
             productToAdd={ productToAdd }
+            quantity={ quantity }
           />
           { isLoading && <p>Carregando...</p> }
           { isLoading || this.renderProductDetails() }
